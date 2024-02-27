@@ -1,46 +1,52 @@
 package com.spring.security.controllers;
 
-import com.spring.security.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
 @RequestMapping("/api/test")
 public class TestController {
-    @Autowired
-    UserRepository userRepository;
 
-    // publik end point
-    // du behöver ej vara inloggad
-    @GetMapping("/public")
+    // publik route öppen för alla
+    @GetMapping("/all")
     public String allAccess() {
-        return "Public Content";
+        return "Public content!";
     }
 
-    // user end point
-    // du måste vara inloggad
-    // alla roller som finns kommer åt den här resursen där gör vi preAuthorize med alla roller
+    // user, måste vara inloggad och minst user roll
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping("/user")
     public String userAccess() {
-        return "User Content";
+        return "User content!";
     }
 
-    // moderator end point
+    // mod, måste vara minst mod roll kan ej vara user
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping("/mod")
-    @PreAuthorize("hasRole('MODERATOR')")
     public String modAccess() {
-        return "Moderator Content";
+        return "Moderator content!";
     }
 
-    // admin end point
-    @GetMapping("/admin")
+    // admin, kan endast vara admin
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin")
     public String adminAccess() {
-        return "Admin Content";
+        return "Admin content!";
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
