@@ -10,11 +10,15 @@ public class Todo {
 
     private String task;
 
+    private String label;
+
     private boolean done;
 
 
-    public Todo() {
-
+    public Todo(String task, String label) {
+    this.task = task;
+    this.label = label;
+    this.done = false;
     }
 
     public String getId() {
@@ -41,12 +45,11 @@ public class Todo {
         this.done = done;
     }
 
-    @Override
-    public String toString() {
-        return "Todo{" +
-                "id='" + id + '\'' +
-                ", task='" + task + '\'' +
-                ", done=" + done +
-                '}';
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }
