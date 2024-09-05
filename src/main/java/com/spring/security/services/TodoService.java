@@ -19,8 +19,4 @@ public class TodoService {
     public List<Todo> getAllTodos() {
         return todoRepository.findAll();
     }
-
-
-
-
 }
